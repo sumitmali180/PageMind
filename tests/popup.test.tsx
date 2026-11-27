@@ -78,5 +78,66 @@ describe('Popup UI components', () => {
     fireEvent.keyDown(input, { key: 'Enter', shiftKey: false });
     expect(onSend).toHaveBeenCalledWith('How does auth work?');
   });
+
+  it('supports mouse resizing in both axes and resets to default size on reopen', async () => {
+    const { unmount } = render(<App />);
+
+    await waitFor(() => {
+      expect(document.documentElement.style.getPropertyValue('--pm-popup-width')).toBe('420px');
+      expect(document.documentElement.style.getPropertyValue('--pm-popup-height')).toBe('580px');
+    });
+
+    const dragHandle = (
+      el: HTMLElement,
+      start: { x: number; y: number },
+      end: { x: number; y: number },
+    ) => {
+      fireEvent(
+        el,
+        new MouseEvent('pointerdown', {
+          bubbles: true,
+          button: 0,
+          screenX: start.x,
+          screenY: start.y,
+        }),
+      );
+      fireEvent(
+        el,
+        new MouseEvent('pointermove', {
+          bubbles: true,
+          screenX: end.x,
+          screenY: end.y,
+        }),
+      );
+      fireEvent(el, new MouseEvent('pointerup', { bubbles: true }));
+    };
+
+    const brHandle = screen.getByLabelText('Resize popup from bottom-right corner');
+    dragHandle(brHandle, { x: 500, y: 500 }, { x: 620, y: 580 });
+
+    expect(document.documentElement.style.getPropertyValue('--pm-popup-width')).toBe('540px');
+    expect(document.documentElement.style.getPropertyValue('--pm-popup-height')).toBe('660px');
+
+    const leftHandle = screen.getByLabelText('Resize popup horizontally from left edge');
+    dragHandle(leftHandle, { x: 300, y: 300 }, { x: 200, y: 300 });
+
+    expect(document.documentElement.style.getPropertyValue('--pm-popup-width')).toBe('640px');
+
+    fireEvent.doubleClick(brHandle);
+    expect(document.documentElement.style.getPropertyValue('--pm-popup-width')).toBe('420px');
+    expect(document.documentElement.style.getPropertyValue('--pm-popup-height')).toBe('580px');
+
+    // Resize again, then unmount and remount to simulate reopening the popup
+    dragHandle(brHandle, { x: 500, y: 500 }, { x: 400, y: 400 });
+    expect(document.documentElement.style.getPropertyValue('--pm-popup-width')).toBe('320px');
+    expect(document.documentElement.style.getPropertyValue('--pm-popup-height')).toBe('480px');
+
+    unmount();
+    render(<App />);
+    await waitFor(() => {
+      expect(document.documentElement.style.getPropertyValue('--pm-popup-width')).toBe('420px');
+      expect(document.documentElement.style.getPropertyValue('--pm-popup-height')).toBe('580px');
+    });
+  });
 });
 

@@ -12,6 +12,7 @@ import { testApiConnection } from '@/services/grok';
 import { maskApiKey } from '@/utils/sanitize';
 import { usePageContent } from '@/hooks/usePageContent';
 import { useChat } from '@/hooks/useChat';
+import { usePopupResize } from '@/hooks/usePopupResize';
 import { Header } from './components/Header';
 import { PageInfo } from './components/PageInfo';
 import { Summary } from './components/Summary';
@@ -19,6 +20,7 @@ import { Chat } from './components/Chat';
 import { Settings } from './components/Settings';
 import { ErrorState } from './components/ErrorState';
 import { LoadingState } from './components/LoadingState';
+import { ResizeHandles } from './components/ResizeHandles';
 
 export const App: React.FC = () => {
   const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
@@ -86,6 +88,7 @@ export const App: React.FC = () => {
 
   const page = usePageContent(settings, hasKey, settingsLoaded);
   const chat = useChat(page.pageContent, settings);
+  const resize = usePopupResize();
 
   const handleSetupSave = async (e: React.FormEvent, testFirst: boolean) => {
     e.preventDefault();
@@ -121,7 +124,13 @@ export const App: React.FC = () => {
     page.pageContent?.metadata.domain || page.tabPreview?.domain || '';
 
   return (
-    <div className="pm-shell">
+    <div className={`pm-shell${resize.isResizing ? ' is-resizing' : ''}`}>
+      <ResizeHandles
+        onPointerDown={resize.handlePointerDown}
+        onPointerMove={resize.handlePointerMove}
+        onPointerUp={resize.stopResize}
+        onReset={resize.resetSize}
+      />
       <Header
         domain={activeDomain}
         showSettings={showSettings}
