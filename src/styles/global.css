@@ -1,0 +1,141 @@
+:root {
+  color-scheme: light dark;
+
+  --pm-bg-light: #fafafa;
+  --pm-bg-dark: #111113;
+  --pm-surface-light: #ffffff;
+  --pm-surface-dark: #18181b;
+  --pm-surface-subtle-light: #f4f4f5;
+  --pm-surface-subtle-dark: #222226;
+
+  --pm-border-light: #e4e4e7;
+  --pm-border-dark: #27272a;
+
+  --pm-text-light: #18181b;
+  --pm-text-dark: #f4f4f5;
+  --pm-text-muted-light: #71717a;
+  --pm-text-muted-dark: #a1a1aa;
+
+  --pm-accent-light: #2563eb;
+  --pm-accent-dark: #60a5fa;
+  --pm-accent-fg-light: #ffffff;
+  --pm-accent-fg-dark: #09090b;
+
+  --pm-danger-light: #dc2626;
+  --pm-danger-dark: #f87171;
+  --pm-success-light: #16a34a;
+  --pm-success-dark: #4ade80;
+
+  --pm-bg: var(--pm-bg-light);
+  --pm-surface: var(--pm-surface-light);
+  --pm-surface-subtle: var(--pm-surface-subtle-light);
+  --pm-border: var(--pm-border-light);
+  --pm-text: var(--pm-text-light);
+  --pm-text-muted: var(--pm-text-muted-light);
+  --pm-accent: var(--pm-accent-light);
+  --pm-accent-fg: var(--pm-accent-fg-light);
+  --pm-danger: var(--pm-danger-light);
+  --pm-success: var(--pm-success-light);
+
+  --pm-font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto,
+    sans-serif;
+  --pm-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+  --pm-radius-sm: 6px;
+  --pm-radius-md: 8px;
+
+  accent-color: var(--pm-accent);
+  scrollbar-color: var(--pm-border) transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --pm-bg: var(--pm-bg-dark);
+    --pm-surface: var(--pm-surface-dark);
+    --pm-surface-subtle: var(--pm-surface-subtle-dark);
+    --pm-border: var(--pm-border-dark);
+    --pm-text: var(--pm-text-dark);
+    --pm-text-muted: var(--pm-text-muted-dark);
+    --pm-accent: var(--pm-accent-dark);
+    --pm-accent-fg: var(--pm-accent-fg-dark);
+    --pm-danger: var(--pm-danger-dark);
+    --pm-success: var(--pm-success-dark);
+  }
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --pm-bg: var(--pm-bg-dark);
+  --pm-surface: var(--pm-surface-dark);
+  --pm-surface-subtle: var(--pm-surface-subtle-dark);
+  --pm-border: var(--pm-border-dark);
+  --pm-text: var(--pm-text-dark);
+  --pm-text-muted: var(--pm-text-muted-dark);
+  --pm-accent: var(--pm-accent-dark);
+  --pm-accent-fg: var(--pm-accent-fg-dark);
+  --pm-danger: var(--pm-danger-dark);
+  --pm-success: var(--pm-success-dark);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 420px;
+  min-width: 420px;
+  height: 580px;
+  min-height: 580px;
+  overflow: hidden;
+  background-color: var(--pm-bg);
+  color: var(--pm-text);
+  font-family: var(--pm-font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--pm-accent);
+  outline-offset: 2px;
+}
+
+.pm-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
